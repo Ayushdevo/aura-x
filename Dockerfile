@@ -10,8 +10,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY backend/ ./backend/
 COPY frontend/ ./frontend/
 
-# Expose port
+# Expose default port (Render overrides via $PORT env var)
 EXPOSE 8000
 
-# Start server
-CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Use shell form so $PORT env variable is expanded at runtime
+CMD uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8000}
