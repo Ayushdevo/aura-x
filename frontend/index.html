@@ -1,22 +1,123 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ayush Tiwari | Personal AI Digital Twin & Portfolio</title>
 
-    <!-- Meta tags for SEO -->
-    <meta name="description"
-        content="Explore the portfolio of Ayush Tiwari, Machine Learning & AI Engineer, featuring an interactive Personal AI Digital Twin powered by Claude, FastAPI, and a Vector Database.">
+    <!-- ═══════════════════════════════════════════════════════
+         PRIMARY SEO META TAGS
+    ═══════════════════════════════════════════════════════ -->
+    <title>Ayush Tiwari | AI & Machine Learning Engineer | IIT Guwahati</title>
+    <meta name="description" content="Ayush Tiwari — AI & Machine Learning Engineer from IIT Guwahati. Expert in deep learning, LLMs, agentic AI, and scalable data pipelines. Explore my interactive AI Digital Twin portfolio, projects like CardioSense AI, and internship experience at 10x.ai.">
+    <meta name="keywords" content="Ayush Tiwari, AI Engineer, Machine Learning Engineer, IIT Guwahati, Deep Learning, LLM, Large Language Models, Agentic AI, Data Science, Python, FastAPI, NLP, Computer Vision, CardioSense, 10x.ai, ML Intern, AI portfolio, ayushrao.tech, Ayush AI, top AI engineer India, AI student IIT, ML internship India">
     <meta name="author" content="Ayush Tiwari">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="googlebot" content="index, follow">
+    <meta name="theme-color" content="#0a0f1e">
+    <link rel="canonical" href="https://ayushrao.tech/">
 
-    <!-- Google Fonts & Icon Library -->
+    <!-- ═══════════════════════════════════════════════════════
+         OPEN GRAPH (Facebook, LinkedIn, WhatsApp previews)
+    ═══════════════════════════════════════════════════════ -->
+    <meta property="og:type" content="profile">
+    <meta property="og:title" content="Ayush Tiwari | AI & Machine Learning Engineer">
+    <meta property="og:description" content="IIT Guwahati student & AI Engineer. Building LLMs, deep learning systems, and agentic AI. Explore my interactive AI Digital Twin and portfolio at ayushrao.tech">
+    <meta property="og:url" content="https://ayushrao.tech/">
+    <meta property="og:site_name" content="Ayush Tiwari — AI Portfolio">
+    <meta property="og:locale" content="en_IN">
+    <meta property="profile:first_name" content="Ayush">
+    <meta property="profile:last_name" content="Tiwari">
+    <meta property="profile:username" content="Ayushdevo">
+
+    <!-- ═══════════════════════════════════════════════════════
+         TWITTER / X CARD
+    ═══════════════════════════════════════════════════════ -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ayush Tiwari | AI & Machine Learning Engineer">
+    <meta name="twitter:description" content="IIT Guwahati | AI Engineer specialising in LLMs, deep learning & agentic AI. Interactive AI Digital Twin portfolio at ayushrao.tech">
+    <meta name="twitter:creator" content="@Ayushdevo">
+    <meta name="twitter:site" content="@Ayushdevo">
+
+    <!-- ═══════════════════════════════════════════════════════
+         JSON-LD STRUCTURED DATA — Person + WebSite schemas
+         This is what Google uses for rich results / Knowledge Panel
+    ═══════════════════════════════════════════════════════ -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Person",
+          "@id": "https://ayushrao.tech/#person",
+          "name": "Ayush Tiwari",
+          "alternateName": ["Ayush", "Ayushdevo", "Ayush Rao"],
+          "url": "https://ayushrao.tech",
+          "email": "ayushtiwaridsai@gmail.com",
+          "image": "https://ayushrao.tech/avatar.jpg",
+          "jobTitle": "AI & Machine Learning Engineer",
+          "description": "AI and Machine Learning Engineer from IIT Guwahati specializing in large language models, deep learning architectures, agentic AI workflows, and scalable data pipelines.",
+          "knowsAbout": [
+            "Machine Learning", "Deep Learning", "Large Language Models",
+            "Agentic AI", "Natural Language Processing", "Computer Vision",
+            "FastAPI", "Python", "Data Science", "Vector Databases",
+            "Neural Networks", "Reinforcement Learning", "LLM Fine-tuning"
+          ],
+          "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "Indian Institute of Technology Guwahati",
+            "alternateName": "IIT Guwahati",
+            "url": "https://iitg.ac.in"
+          },
+          "worksFor": {
+            "@type": "Organization",
+            "name": "10x.ai",
+            "url": "https://10x.ai"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Guwahati",
+            "addressRegion": "Assam",
+            "addressCountry": "IN"
+          },
+          "sameAs": [
+            "https://linkedin.com/in/ayus-tiwari",
+            "https://github.com/Ayushdevo"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://ayushrao.tech/#website",
+          "url": "https://ayushrao.tech",
+          "name": "Ayush Tiwari — AI & Machine Learning Portfolio",
+          "description": "Personal portfolio and interactive AI Digital Twin of Ayush Tiwari, AI Engineer from IIT Guwahati.",
+          "publisher": { "@id": "https://ayushrao.tech/#person" },
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://ayushrao.tech/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "ProfilePage",
+          "@id": "https://ayushrao.tech/#profilepage",
+          "url": "https://ayushrao.tech",
+          "name": "Ayush Tiwari | AI Engineer Portfolio",
+          "about": { "@id": "https://ayushrao.tech/#person" },
+          "mainEntity": { "@id": "https://ayushrao.tech/#person" }
+        }
+      ]
+    }
+    </script>
+
+    <!-- ═══════════════════════════════════════════════════════
+         PERFORMANCE HINTS
+    ═══════════════════════════════════════════════════════ -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap"
-        rel="stylesheet">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://openrouter.ai">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- CSS File -->

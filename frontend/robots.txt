@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://ayushrao.tech/sitemap.xml
+
+# Block API routes from being indexed (not useful for searchers)
+Disallow: /api/
