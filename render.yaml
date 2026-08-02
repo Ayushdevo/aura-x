@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: aura-x-portfolio
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/config
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false   # Set manually in Render dashboard
+      - key: PYTHONUNBUFFERED
+        value: "1"

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ayush Tiwari | Personal AI Digital Twin & Portfolio</title>
+
+    <!-- Meta tags for SEO -->
+    <meta name="description"
+        content="Explore the portfolio of Ayush Tiwari, Machine Learning & AI Engineer, featuring an interactive Personal AI Digital Twin powered by Claude, FastAPI, and a Vector Database.">
+    <meta name="author" content="Ayush Tiwari">
+
+    <!-- Google Fonts & Icon Library -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@300;400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="dark-mode">
+    <!-- Spotlight trail following cursor -->
+    <div id="cursor-spotlight"></div>
+
+    <!-- Animated Interactive Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Custom Accent Glow Spots -->
+    <div class="glow-spot spot-1"></div>
+    <div class="glow-spot spot-2"></div>
+
+    <div class="app-container">
+        <!-- Floating Navigation Header -->
+        <header class="glass-panel main-header">
+            <div class="logo">
+                <span class="logo-accent">&lt;</span>AYUSH.AI<span class="logo-accent">/&gt;</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#hero" class="active"><i class="fa-solid fa-house"></i> Home</a>
+                <a href="#twin"><i class="fa-solid fa-robot"></i> AI Twin</a>
+                <a href="#portfolio"><i class="fa-solid fa-briefcase"></i> Experience</a>
+                <a href="#projects"><i class="fa-solid fa-code"></i> Projects</a>
+                <a href="#compatibility"><i class="fa-solid fa-chart-simple"></i> Matcher</a>
+            </nav>
+            <div class="header-actions">
+                <button id="theme-panel-btn" class="icon-btn" title="Adjust Theme"><i
+                        class="fa-solid fa-sliders"></i></button>
+            </div>
+        </header>
+
+        <!-- Theme Configuration Panel (Drawer) -->
+        <aside id="theme-panel" class="glass-panel drawer">
+            <div class="drawer-header">
+                <h3>Theme Customizer</h3>
+                <button id="close-theme-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="drawer-body">
+                <div class="control-group">
+                    <label for="hue-slider">Primary Theme Hue: <span id="hue-val">195°</span></label>
+                    <input type="range" id="hue-slider" min="0" max="360" value="195">
+                    <div class="hue-preview"></div>
+                </div>
+                <div class="control-group">
+                    <label for="blur-slider">Glassmorphism Blur: <span id="blur-val">12px</span></label>
+                    <input type="range" id="blur-slider" min="0" max="30" value="12">
+                </div>
+                <div class="control-group">
+                    <label>Background System</label>
+                    <div class="toggle-group">
+                        <button id="btn-anim-interactive" class="btn active">Interactive Stars</button>
+                        <button id="btn-anim-slow" class="btn">Slow Drift</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Layout Sections -->
+        <main class="content-area">
+
+            <!-- HERO SECTION -->
+            <section id="hero" class="hero-section">
+                <div class="hero-info-card glass-panel animate-reveal">
+                    <div class="badge"><i class="fa-solid fa-circle-nodes"></i> Now Seeking ML Internships</div>
+                    <h1>Ayush Tiwari</h1>
+                    <h2>Machine Learning &amp; AI Engineer</h2>
+                    <p class="summary-text">
+                        I specialize in building end-to-end deep learning architectures, scalable data pipelines (79M+
+                        records), and agentic LLM workflows. Solving high-impact problems at the intersection of
+                        intelligence and performance.
+                    </p>
+                    <div class="contact-meta">
+                        <span><i class="fa-solid fa-location-dot"></i> Etawah, India / IIT Guwahati</span>
+                        <span><i class="fa-solid fa-envelope"></i> ayushtiwaridsai@gmail.com</span>
+                    </div>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/ayus-tiwari" target="_blank" class="btn btn-secondary"><i
+                                class="fa-brands fa-linkedin"></i> LinkedIn</a>
+                        <a href="https://github.com/Ayushdevo" target="_blank" class="btn btn-secondary"><i
+                                class="fa-brands fa-github"></i> GitHub</a>
+                        <a href="#twin" class="btn btn-primary"><i class="fa-solid fa-comments"></i> Consult AI Twin</a>
+                    </div>
+                </div>
+
+                <!-- Contribution Activity Heatmaps -->
+                <div class="activity-card glass-panel animate-reveal">
+                    <div class="activity-header">
+                        <span class="status-indicator online"></span>
+                        <span class="activity-title">DEVELOPER ACTIVITY BOARDS</span>
+                    </div>
+                    <div class="activity-body-heatmap">
+                        <!-- GitHub Heatmap -->
+                        <div class="heatmap-wrapper">
+                            <div class="heatmap-header">
+                                <span><i class="fa-brands fa-github text-accent"></i> GitHub Contributions</span>
+                                <span class="stats-badge" id="github-total">1,842 commits</span>
+                            </div>
+                            <div class="heatmap-grid" id="github-heatmap"></div>
+                        </div>
+
+                        <!-- Kaggle Heatmap -->
+                        <div class="heatmap-wrapper">
+                            <div class="heatmap-header">
+                                <span><i class="fa-brands fa-kaggle text-kaggle"></i> Kaggle Submissions</span>
+                                <span class="stats-badge" id="kaggle-total">342 kernels</span>
+                            </div>
+                            <div class="heatmap-grid" id="kaggle-heatmap"></div>
+                        </div>
+
+                        <!-- Life Quotes Section -->
+                        <div class="quotes-wrapper">
+                            <div class="quotes-header">
+                                <span><i class="fa-solid fa-quote-left text-accent"></i> Life Philosophy</span>
+                                <button id="next-quote-btn" class="icon-btn" title="Next Quote"><i
+                                        class="fa-solid fa-arrows-rotate"></i></button>
+                            </div>
+                            <div class="quote-text-container">
+                                <p id="quote-display">"Loading philosophy..."</p>
+                                <span class="quote-author">- Ayush Tiwari</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="activity-footer">
+                        <small><i class="fa-solid fa-fire"></i> Active Streak: 48 Days (Syncing Live)</small>
+                    </div>
+                </div>
+            </section>
+
+            <!-- AI TWIN CHAT TERMINAL -->
+            <section id="twin" class="twin-section">
+                <div class="chat-wrapper glass-panel animate-reveal">
+                    <div class="chat-header">
+                        <div class="chat-title-info">
+                            <i class="fa-solid fa-brain header-icon"></i>
+                            <div>
+                                <h3>Ask My AI Digital Twin</h3>
+                                <p class="subtext"><span id="active-model-name">Loading model...</span> • Factual Mode
+                                    (No Bluff)</p>
+                            </div>
+                        </div>
+                        <div class="chat-actions">
+                            <button id="inspect-memory-btn" class="btn btn-secondary btn-small"
+                                title="Inspect what I remember about you"><i class="fa-solid fa-memory"></i>
+                                Memory</button>
+                            <button id="clear-chat-btn" class="btn btn-secondary btn-small" title="Clear memory logs"><i
+                                    class="fa-solid fa-trash"></i> Reset</button>
+                        </div>
+                    </div>
+
+                    <div class="chat-body" id="chat-messages">
+                        <div class="message system-message">
+                            <p>Hi, I am Ayush's Digital Twin. I can talk about my projects, internships, education at
+                                IIT, or analyze how my skills map to your job requirements. I am programmed to be
+                                completely honest (no bluffing!). How can I help you today?</p>
+                        </div>
+                    </div>
+
+                    <div class="quick-prompts">
+                        <button class="quick-prompt-btn">What is your main programming language?</button>
+                        <button class="quick-prompt-btn">Tell me about CardioSense AI</button>
+                        <button class="quick-prompt-btn">Do you have experience with DuckDB?</button>
+                        <button class="quick-prompt-btn">Are you open to relocating?</button>
+                    </div>
+
+                    <div class="chat-input-area">
+                        <input type="text" id="chat-input"
+                            placeholder="Ask me anything about my experience or skills..." autocomplete="off">
+                        <button id="send-btn" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i>
+                            Send</button>
+                    </div>
+                </div>
+
+                <!-- Session Memory Inspector overlay -->
+                <div id="memory-inspector" class="glass-panel inner-panel hidden">
+                    <div class="panel-header">
+                        <h4>AI Active Memory Store</h4>
+                        <button id="close-memory-btn" class="icon-btn"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="panel-body">
+                        <p class="explanation">The AI Twin tracks your dialogue session-state context here to
+                            personalize reasoning tasks:</p>
+                        <pre id="memory-data">{}</pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PORTFOLIO / RESUME INFORMATION -->
+            <section id="portfolio" class="portfolio-section">
+                <!-- TECHNICAL SKILLS -->
+                <div class="portfolio-col-2">
+                    <div class="skills-card glass-panel animate-reveal">
+                        <h3><i class="fa-solid fa-bolt"></i> Technical Skills</h3>
+                        <div class="skills-wrapper">
+                            <div class="skills-group">
+                                <h4>Languages</h4>
+                                <div class="skills-tags" id="skill-languages"></div>
+                            </div>
+                            <div class="skills-group">
+                                <h4>Deep Learning &amp; ML</h4>
+                                <div class="skills-tags" id="skill-ml"></div>
+                            </div>
+                            <div class="skills-group">
+                                <h4>Generative AI &amp; LLM</h4>
+                                <div class="skills-tags" id="skill-genai"></div>
+                            </div>
+                            <div class="skills-group">
+                                <h4>Data Engineering &amp; DB</h4>
+                                <div class="skills-tags" id="skill-data"></div>
+                            </div>
+                            <div class="skills-group">
+                                <h4>Cloud &amp; Deployment</h4>
+                                <div class="skills-tags" id="skill-cloud"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- EDUCATION & DEGREES -->
+                    <div class="education-card glass-panel animate-reveal">
+                        <h3><i class="fa-solid fa-graduation-cap"></i> Education</h3>
+                        <div class="timeline" id="education-list"></div>
+                    </div>
+                </div> <!-- CLOSE FIRST COLUMN -->
+
+                <!-- WORK EXPERIENCE & QUICK CONTACT -->
+                <div class="portfolio-col-2">
+                    <div class="experience-card glass-panel animate-reveal">
+                        <h3><i class="fa-solid fa-briefcase"></i> Work Experience</h3>
+                        <div class="timeline" id="experience-list"></div>
+                    </div>
+
+                    <div class="hire-card glass-panel animate-reveal">
+                        <h3><i class="fa-solid fa-paper-plane"></i> Let's Connect</h3>
+                        <p class="pitch-text">Interested in hiring me or collaborating on an AI project? Drop me a
+                            message! I'm currently seeking ML Engineer internships and remote/cohort opportunities.</p>
+                        <div class="pitch-details">
+                            <div class="pitch-item">
+                                <span class="pitch-label">Tech Domain:</span>
+                                <span class="pitch-value">Machine Learning / NLP / RAG / ETL</span>
+                            </div>
+                            <div class="pitch-item">
+                                <span class="pitch-label">Status:</span>
+                                <span class="pitch-value">Available for Internships (Fall/Winter 2026)</span>
+                            </div>
+                        </div>
+                        <a href="mailto:ayushtiwaridsai@gmail.com" class="btn btn-primary btn-block"><i
+                                class="fa-solid fa-envelope"></i> Send Direct Email</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECTS & CERTIFICATIONS -->
+            <section id="projects" class="projects-section">
+                <div class="section-header">
+                    <h2>Selected Projects</h2>
+                </div>
+                <div class="projects-grid" id="projects-list"></div>
+
+                <div class="credentials-row">
+                    <!-- CERTIFICATIONS -->
+                    <div class="certifications-card glass-panel animate-reveal">
+                        <h3><i class="fa-solid fa-award"></i> Professional Credentials</h3>
+                        <ul class="certifications-list" id="certifications-list"></ul>
+                    </div>
+
+                    <!-- KEY ACHIEVEMENTS -->
+                    <div class="achievements-card glass-panel animate-reveal">
+                        <h3><i class="fa-solid fa-star"></i> Key Achievements</h3>
+                        <ul class="achievements-list" id="achievements-list"></ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COMPATIBILITY ANALYZER -->
+            <section id="compatibility" class="compatibility-section">
+                <div class="glass-panel analyzer-card animate-reveal">
+                    <div class="analyzer-grid">
+                        <div class="input-panel">
+                            <h3><i class="fa-solid fa-chart-pie"></i> Recruiters Compatibility Checker</h3>
+                            <p class="subtext">Paste your job description below. The AI Digital Twin will compare
+                                requirements against its vector database and compute compatibility metrics.</p>
+                            <textarea id="jd-input"
+                                placeholder="Paste the job description or role requirements here..."></textarea>
+                            <button id="analyze-btn" class="btn btn-primary btn-block"><i class="fa-solid fa-atom"></i>
+                                Run Fit Analysis</button>
+                        </div>
+
+                        <div class="result-panel" id="analysis-results">
+                            <div class="empty-state">
+                                <i class="fa-solid fa-robot pulse"></i>
+                                <p>Waiting for job description input...</p>
+                            </div>
+
+                            <!-- Hidden analysis layout, revealed on load -->
+                            <div class="results-content hidden">
+                                <div class="score-row">
+                                    <div class="circular-progress">
+                                        <svg viewBox="0 0 100 100">
+                                            <circle cx="50" cy="50" r="40" class="bg-circle"></circle>
+                                            <circle cx="50" cy="50" r="40" class="fg-circle" id="score-circle"></circle>
+                                        </svg>
+                                        <div class="score-number"><span id="score-value">0</span>%</div>
+                                    </div>
+                                    <div class="verdict-summary">
+                                        <h4>Fit Analysis Score</h4>
+                                        <p id="analysis-verdict">Evaluating match metrics...</p>
+                                    </div>
+                                </div>
+
+                                <hr class="divider">
+
+                                <div class="analysis-details">
+                                    <div class="detail-col">
+                                        <h5><i class="fa-solid fa-circle-check text-success"></i> Matching Skills</h5>
+                                        <div class="skills-tags" id="match-skills-tags"></div>
+                                    </div>
+                                    <div class="detail-col">
+                                        <h5><i class="fa-solid fa-circle-plus text-accent"></i> Learning Areas</h5>
+                                        <div class="skills-tags" id="learn-skills-tags"></div>
+                                    </div>
+                                </div>
+
+                                <div class="strengths-gaps">
+                                    <div class="panel-section">
+                                        <h5>Core Fit Strengths</h5>
+                                        <ul id="strengths-list"></ul>
+                                    </div>
+                                    <div class="panel-section">
+                                        <h5>Honest Gap Analysis</h5>
+                                        <p id="gaps-text"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Premium Glass Footer -->
+        <footer class="glass-panel main-footer">
+            <p>&copy; 2026 Ayush Tiwari. AI Twin &amp; Reasoning Server running on FastAPI &amp; OpenRouter.</p>
+            <div class="footer-meta">
+                <span><i class="fa-solid fa-code"></i> Python + HTML5 + CSS3</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Floating 3D Interactive Helper Bot -->
+    <div id="floating-bot-container" class="animate-reveal">
+        <div id="bot-speech-bubble" class="glass-panel">
+            <p>Click me to copy His Email</p>
+        </div>
+        <div id="bot-3d-model">
+            <div class="bot-ring"></div>
+            <div class="bot-head">
+                <div class="bot-face">
+                    <div class="bot-eyes">
+                        <div class="bot-eye left-eye"></div>
+                        <div class="bot-eye right-eye"></div>
+                    </div>
+                    <div class="bot-mouth"></div>
+                </div>
+            </div>
+            <div class="bot-shadow"></div>
+        </div>
+    </div>
+
+    <!-- App Logic Script -->
+    <script src="app.js?v=7"></script>
+</body>
+
+</html>

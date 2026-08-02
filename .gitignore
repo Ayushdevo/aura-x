@@ -1,0 +1,14 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.local
+backend/embeddings_cache.json
+*.egg-info/
+dist/
+build/
+.DS_Store
+Thumbs.db
+*.log

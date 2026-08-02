@@ -1,0 +1,182 @@
+{
+  "personal_info": {
+    "name": "Ayush Tiwari",
+    "title": "Machine Learning and AI Engineer",
+    "location": "Etawah, India",
+    "phone": "+91 7017599074",
+    "email": "ayushtiwaridsai@gmail.com",
+    "linkedin": "https://linkedin.com/in/ayus-tiwari",
+    "github": "https://github.com/Ayushdevo",
+    "summary": "Machine Learning and AI Engineer with hands-on experience building end-to-end machine learning models, deep learning systems, computer vision applications, and Generative AI / LLM solutions. Proficient in Python, SQL, TensorFlow, Keras, Scikit-learn, PyTorch-style CNN architectures, OpenCV, LangChain, FastAPI, Docker, and Git. Experienced in data pipeline engineering, feature engineering, model evaluation, and production-oriented deployment. Strong foundation in Data Science, Statistical Modelling, and AI Engineering with a track record of measurable performance improvements across ML pipelines."
+  },
+  "skills": {
+    "languages": [
+      "Python",
+      "SQL",
+      "C",
+      "MATLAB"
+    ],
+    "machine_learning_deep_learning": [
+      "TensorFlow",
+      "Keras",
+      "Scikit-learn",
+      "CNN",
+      "Signal Processing",
+      "Model Evaluation",
+      "Feature Engineering"
+    ],
+    "generative_ai_llm": [
+      "LangChain",
+      "Google Gemini API",
+      "Prompt Engineering",
+      "LLM Integration"
+    ],
+    "data_engineering": [
+      "Pandas",
+      "NumPy",
+      "DuckDB",
+      "Data Pipelines",
+      "Data Preprocessing",
+      "ETL"
+    ],
+    "computer_vision": [
+      "OpenCV"
+    ],
+    "deployment_tools": [
+      "Flask",
+      "FastAPI",
+      "Streamlit",
+      "Docker",
+      "Git",
+      "GitHub",
+      "Linux"
+    ],
+    "cloud": [
+      "AWS",
+      "Oracle Cloud Infrastructure (OCI)"
+    ],
+    "databases": [
+      "SQL",
+      "DuckDB"
+    ]
+  },
+  "experience": [
+    {
+      "company": "10x.ai",
+      "location": "New York, NY (Remote/Hybrid)",
+      "role": "Machine Learning Intern",
+      "duration": "July 2026 - Present",
+      "highlights": [
+        "Built scalable machine learning data pipelines using Python and DuckDB to process and analyze 79M+ records, enabling efficient feature engineering and model development.",
+        "Engineered and optimized data preprocessing workflows, reducing data preparation time by 50%+ while improving reliability and reproducibility of machine learning experiments.",
+        "Developed and evaluated predictive machine learning models on large-scale datasets, leveraging feature engineering and automated validation pipelines to accelerate experimentation and improve model performance."
+      ]
+    },
+    {
+      "company": "Codec Technologies",
+      "location": "Remote",
+      "role": "AI Intern",
+      "duration": "May 2026 - July 2026",
+      "highlights": [
+        "Built scalable data preprocessing and evaluation pipelines for 25,000+ records, improving inference efficiency by 40% and supporting rapid model experimentation.",
+        "Developed and integrated LLM-powered features using Python, prompt engineering, and API-based models to automate text processing and enhance user experience."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "CardioSense AI",
+      "date": "April 2026",
+      "tech_stack": [
+        "Python",
+        "TensorFlow",
+        "Keras",
+        "Flask",
+        "SciPy",
+        "Pandas",
+        "CNN",
+        "Signal Processing"
+      ],
+      "details": [
+        "Developed an end-to-end deep learning-based ECG diagnostic system using CNNs trained on the MIT-BIH Arrhythmia Dataset for automated binary classification of cardiac signals.",
+        "Engineered a real-time signal processing pipeline for ECG normalization, R-peak detection, heart rate estimation, and waveform visualization, improving model prediction interpretability."
+      ]
+    },
+    {
+      "name": "Customer Segmentation Engine (Customer-Seg)",
+      "date": "July 2026",
+      "tech_stack": [
+        "Python",
+        "Streamlit",
+        "Scikit-learn",
+        "K-Means",
+        "Pandas",
+        "NumPy",
+        "LangChain",
+        "Google Gemini",
+        "Docker"
+      ],
+      "details": [
+        "Achieved 94.2% clustering purity on the validation dataset; integrated Google Gemini via LangChain to generate personalized marketing strategies and retention recommendations for 100% of predicted customer profiles.",
+        "Containerized the application using Docker and built an interactive Streamlit dashboard featuring real-time prediction, secure API key management, and dataset exploration for scalable deployment."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Indian Institute of Technology (IIT) Guwahati",
+      "location": "Guwahati, Assam",
+      "branch": "Data Science and AI; Minor in Statistical Modelling",
+      "duration": "Expected May 2028",
+      "coursework": [
+        "Data Analysis",
+        "Optimization",
+        "Operating Systems",
+        "Algorithms",
+        "Artificial Intelligence"
+      ]
+    }
+  ],
+  "certifications": [
+    "Oracle Certified Generative AI Professional",
+    "AWS AI & ML Scholars Program (Nanodegree)",
+    "AWS Agentic AI Business Professional Nanodegree",
+    "AWS Certified Cloud Practitioner",
+    "Oracle Cloud Infrastructure (OCI) Certification",
+    "Advanced SQL Certification"
+  ],
+  "key_achievements": [
+    "Achieved 96%+ model accuracy on benchmark machine learning datasets.",
+    "Published multiple open-source AI projects on GitHub, showcasing full-stack ML systems, Dockerized deployments, and reproducible development workflows.",
+    "Selected for the AWS AI & ML Scholars Program (Nanodegree)."
+  ],
+  "life_quotes": [
+    "The best way to predict the future is to invent it. If you want something done, model it.",
+    "Data is the new oil, but only if it's refined into intelligence. Keep compiling.",
+    "Perfection is achieved not when there is nothing more to add, but when there is nothing left to take away.",
+    "The beauty of machine learning is that it learns from mistakes. Humans should try that too.",
+    "Clean code, clear thinking, and massive scale. That is the engineer's creed."
+  ],
+  "qa_pairs": [
+    {
+      "question": "What is Ayush's main coding language?",
+      "answer": "Ayush's primary language is Python, which he uses extensively for machine learning, data engineering pipelines, and LLM integrations. He is also proficient in SQL, C, and MATLAB."
+    },
+    {
+      "question": "Does Ayush have experience with Vector Databases?",
+      "answer": "Yes, Ayush works with Vector Databases and LLMs for building Retrieval-Augmented Generation (RAG) applications, agentic workflows, and semantic search features, including this Digital Twin portfolio itself."
+    },
+    {
+      "question": "Can Ayush build data engineering pipelines?",
+      "answer": "Absolutely. During his internship at 10x.ai, he built scalable pipelines using Python and DuckDB to process and analyze over 79 million records, reducing data preparation times by over 50%."
+    },
+    {
+      "question": "What kind of 3D Digital Twin is this?",
+      "answer": "This portfolio displays a glowing, interactive holographic 3D neon brain model representing Ayush's AI Digital Twin, symbolizing computational intelligence, deep neural networks, and a clean, high-performance tech aesthetic."
+    },
+    {
+      "question": "Where is Ayush based and is he open to relocation?",
+      "answer": "Ayush is currently based in Etawah, India, and is studying at IIT Guwahati. He is open to remote roles, internships, and potential relocations depending on the opportunity details."
+    }
+  ]
+}
