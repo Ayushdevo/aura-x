@@ -194,57 +194,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initParticles();
     animate();
 
-    // --- Developer Activity Heatmaps Builder ---
-    function generateHeatmap(containerId, totalId, activeColorPrefix) {
-        const grid = document.getElementById(containerId);
-        if (!grid) return;
-        grid.innerHTML = "";
-        const totalCells = 24 * 7;
-        let countSum = 0;
-        for (let i = 0; i < totalCells; i++) {
-            const cell = document.createElement("div");
-            cell.className = "heatmap-cell";
-            let weight = Math.random();
-            if (Math.random() < 0.25) weight = 0;
-            let level = 0;
-            let commits = 0;
-            if (weight > 0) {
-                if (weight < 0.4) { level = 1; commits = Math.floor(Math.random() * 2) + 1; }
-                else if (weight < 0.7) { level = 2; commits = Math.floor(Math.random() * 2) + 3; }
-                else if (weight < 0.9) { level = 3; commits = Math.floor(Math.random() * 3) + 5; }
-                else { level = 4; commits = Math.floor(Math.random() * 4) + 8; }
-            }
-            countSum += commits;
-            if (level > 0) {
-                if (activeColorPrefix === "github") {
-                    const githubColors = ["rgba(255,255,255,0.03)", "#0e4429", "#006d32", "#26a641", "#39d353"];
-                    cell.style.backgroundColor = githubColors[level];
-                    cell.style.color = githubColors[level];
-                } else {
-                    const kaggleColors = ["rgba(255,255,255,0.03)", "#0b4d75", "#0073b1", "#00a2e8", "#00c3ff"];
-                    cell.style.backgroundColor = kaggleColors[level];
-                    cell.style.color = kaggleColors[level];
-                }
-            } else {
-                cell.style.backgroundColor = "rgba(255, 255, 255, 0.03)";
-                cell.style.color = "rgba(255, 255, 255, 0.03)";
-            }
-            const date = new Date();
-            date.setDate(date.getDate() - (totalCells - i));
-            const dateStr = date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
-            const contributionLabel = activeColorPrefix === "github" ? "contributions" : "submissions";
-            cell.title = `${commits > 0 ? commits : "No"} ${contributionLabel} on ${dateStr}`;
-            grid.appendChild(cell);
-        }
-        const totalEl = document.getElementById(totalId);
-        if (totalEl) {
-            totalEl.textContent = `${countSum.toLocaleString()} ${activeColorPrefix === "github" ? "commits" : "kernels"}`;
-        }
-    }
-
-    generateHeatmap("github-heatmap", "github-total", "github");
-    generateHeatmap("kaggle-heatmap", "kaggle-total", "kaggle");
-
     // --- Portfolio Data Fetching and Displaying ---
     async function loadPortfolioData() {
         try {
