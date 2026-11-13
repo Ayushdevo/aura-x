@@ -3,6 +3,12 @@
  * Handles data rendering, dynamic themes, particle canvas, chat, and fit analysis.
  */
 
+function escapeHtml(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[char]);
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     // Generate or fetch session ID for memory storage
     let sessionId = localStorage.getItem("aura_session_id");
@@ -462,7 +468,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function appendMessage(role, text) {
         const messageDiv = document.createElement("div");
         messageDiv.classList.add("message", `${role}-message`);
-        messageDiv.innerHTML = `<p>${text.replace(/\n/g, "<br>")}</p>`;
+        messageDiv.innerHTML = `<p>${escapeHtml(text).replace(/\n/g, "<br>")}</p>`;
         chatMessages.appendChild(messageDiv);
         return messageDiv;
     }
@@ -554,7 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
             analysisResults.innerHTML = `
                 <div class="empty-state">
                     <i class="fa-solid fa-circle-exclamation text-accent"></i>
-                    <p>Error running analysis: ${err.message}. Ensure your OpenRouter API has credits and key is active.</p>
+                    <p>Error running analysis: ${escapeHtml(err.message)}. Ensure your OpenRouter API has credits and key is active.</p>
                 </div>
             `;
         }
@@ -574,7 +580,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                     <div class="verdict-summary">
                         <h4>Fit Analysis Verdict</h4>
-                        <p id="analysis-verdict">${res.fit_verdict}</p>
+                        <p id="analysis-verdict">${escapeHtml(res.fit_verdict)}</p>
                     </div>
                 </div>
                 
@@ -584,13 +590,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="detail-col">
                         <h5><i class="fa-solid fa-circle-check text-success"></i> Matching Skills</h5>
                         <div class="skills-tags" id="match-skills-tags">
-                            ${res.matching_skills.map(s => `<span class="skill-tag">${s}</span>`).join("")}
+                            ${res.matching_skills.map(s => `<span class="skill-tag">${escapeHtml(s)}</span>`).join("")}
                         </div>
                     </div>
                     <div class="detail-col">
                         <h5><i class="fa-solid fa-circle-plus text-accent"></i> Learning Areas</h5>
                         <div class="skills-tags" id="learn-skills-tags">
-                            ${res.skills_to_learn.map(s => `<span class="skill-tag">${s}</span>`).join("")}
+                            ${res.skills_to_learn.map(s => `<span class="skill-tag">${escapeHtml(s)}</span>`).join("")}
                         </div>
                     </div>
                 </div>
@@ -599,12 +605,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="panel-section">
                         <h5>Core Fit Strengths</h5>
                         <ul id="strengths-list">
-                            ${res.strengths.map(st => `<li>${st}</li>`).join("")}
+                            ${res.strengths.map(st => `<li>${escapeHtml(st)}</li>`).join("")}
                         </ul>
                     </div>
                     <div class="panel-section">
                         <h5>Honest Gap Analysis</h5>
-                        <p id="gaps-text">${res.gaps_analysis}</p>
+                        <p id="gaps-text">${escapeHtml(res.gaps_analysis)}</p>
                     </div>
                 </div>
             </div>
