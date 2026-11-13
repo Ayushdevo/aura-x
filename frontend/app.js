@@ -9,13 +9,19 @@ function escapeHtml(value) {
     })[char]);
 }
 
+function getSessionId(storage, cryptoProvider) {
+    const key = "aura_session_id";
+    const existing = storage.getItem(key);
+    // Replace legacy short Math.random identifiers with 128-bit random IDs.
+    if (existing && /^sess_[0-9a-f]{32}$/.test(existing)) return existing;
+    const bytes = cryptoProvider.getRandomValues(new Uint8Array(16));
+    const id = "sess_" + Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+    storage.setItem(key, id);
+    return id;
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    // Generate or fetch session ID for memory storage
-    let sessionId = localStorage.getItem("aura_session_id");
-    if (!sessionId) {
-        sessionId = "sess_" + Math.random().toString(36).substring(2, 15);
-        localStorage.setItem("aura_session_id", sessionId);
-    }
+    const sessionId = getSessionId(localStorage, crypto);
 
     // --- Dynamic Theme & Adjustments Configuration ---
     const root = document.documentElement;
