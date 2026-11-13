@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -8,6 +9,8 @@ from typing import Optional
 
 from backend.vector_db import LightweightVectorDB
 from backend.agent import AnalysisUnavailable, DigitalTwinAgent, sessions
+
+logger = logging.getLogger(__name__)
 
 # API Key and Model configuration — set OPENROUTER_API_KEY as env variable
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
@@ -69,7 +72,8 @@ def post_chat(payload: ChatRequest):
         reply = agent.chat(payload.session_id, payload.message)
         return {"reply": reply}
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Request processing failed")
+        raise HTTPException(status_code=500, detail="Request processing failed") from e
 
 @app.post("/api/analyze-compatibility")
 def post_analyze_compatibility(payload: CompatibilityRequest):
@@ -82,7 +86,8 @@ def post_analyze_compatibility(payload: CompatibilityRequest):
     except AnalysisUnavailable as e:
         raise HTTPException(status_code=503, detail="Compatibility analysis is temporarily unavailable") from e
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.exception("Request processing failed")
+        raise HTTPException(status_code=500, detail="Request processing failed") from e
 
 @app.post("/api/reset-session")
 async def post_reset_session(payload: ResetRequest):
