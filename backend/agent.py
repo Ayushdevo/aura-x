@@ -67,6 +67,8 @@ CRITICAL FACTS & CONTEXT ABOUT ME:
                 with urllib.request.urlopen(req, timeout=25) as response:
                     result = json.loads(response.read().decode("utf-8"))
                     reply = result["choices"][0]["message"]["content"]
+                    if not isinstance(reply, str) or not reply.strip():
+                        raise ValueError("Provider returned an empty or non-text reply")
                     if model != self.model:
                         print(f"Successfully recovered using fallback model: {model}")
                     return reply
