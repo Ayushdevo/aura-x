@@ -530,9 +530,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     analyzeBtn.addEventListener("click", runCompatibilityAnalysis);
 
+    let isAnalyzing = false;
+
     async function runCompatibilityAnalysis() {
+        if (isAnalyzing) return;
         const jd = jdInput.value.trim();
         if (!jd) return;
+        isAnalyzing = true;
+        analyzeBtn.disabled = true;
 
         // Render Loading State inside results card
         analysisResults.innerHTML = `
@@ -563,6 +568,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     <p>Error running analysis: ${escapeHtml(err.message)}. Ensure your OpenRouter API has credits and key is active.</p>
                 </div>
             `;
+        } finally {
+            isAnalyzing = false;
+            analyzeBtn.disabled = false;
         }
     }
 
