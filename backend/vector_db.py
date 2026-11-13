@@ -159,8 +159,20 @@ class LightweightVectorDB:
             except Exception as e:
                 print(f"Failed to save embedding cache: {e}")
 
+    @staticmethod
+    def valid_vector(vector) -> bool:
+        if not isinstance(vector, list) or not vector:
+            return False
+        try:
+            return all(isinstance(value, (int, float)) and not isinstance(value, bool)
+                       and math.isfinite(value) for value in vector)
+        except OverflowError:
+            return False
+
     def cosine_similarity(self, vec_a: list, vec_b: list) -> float:
-        """Calculate cosine similarity between two float vectors."""
+        """Calculate cosine similarity for vectors in the same embedding space."""
+        if not self.valid_vector(vec_a) or not self.valid_vector(vec_b) or len(vec_a) != len(vec_b):
+            raise ValueError("Embedding vectors must be finite and have equal nonzero dimensions")
         dot_product = sum(a * b for a, b in zip(vec_a, vec_b))
         norm_a = math.sqrt(sum(a * a for a in vec_a))
         norm_b = math.sqrt(sum(b * b for b in vec_b))
@@ -189,6 +201,8 @@ class LightweightVectorDB:
         if self.api_key:
             try:
                 query_vector = self.fetch_embedding_remote(query)
+                if not self.valid_vector(query_vector):
+                    use_fallback = True
             except Exception:
                 print("OpenRouter Embeddings API failed. Falling back to keyword search.")
                 use_fallback = True
@@ -196,7 +210,10 @@ class LightweightVectorDB:
             use_fallback = True
 
         for i, chunk in enumerate(self.chunks):
-            if use_fallback or i >= len(self.embeddings) or all(x == 0.0 for x in self.embeddings[i]):
+            if (use_fallback or i >= len(self.embeddings)
+                    or not self.valid_vector(self.embeddings[i])
+                    or len(query_vector) != len(self.embeddings[i])
+                    or all(x == 0.0 for x in self.embeddings[i])):
                 # If embeddings failed or not available, use keyword overlap score
                 score = self.keyword_overlap_score(query, chunk["content"])
             else:
