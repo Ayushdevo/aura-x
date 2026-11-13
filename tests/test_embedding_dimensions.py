@@ -11,7 +11,7 @@ class EmbeddingDimensionsTests(unittest.TestCase):
         self.db.embeddings = [[1.0, 0.0]]
 
     def test_mismatched_or_invalid_query_vectors_use_keyword_fallback(self):
-        for vector in ([1.0], [float('nan'), 0.0], []):
+        for vector in ([1.0], [float('nan'), 0.0], [], [0.0, 0.0]):
             self.db.fetch_embedding_remote = Mock(return_value=vector)
             self.assertEqual(self.db.search('Python'), self.db.chunks)
             self.assertEqual(self.db.search('Rust'), [])

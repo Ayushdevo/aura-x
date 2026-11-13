@@ -201,7 +201,7 @@ class LightweightVectorDB:
         if self.api_key:
             try:
                 query_vector = self.fetch_embedding_remote(query)
-                if not self.valid_vector(query_vector):
+                if not self.valid_vector(query_vector) or not any(query_vector):
                     use_fallback = True
             except Exception:
                 print("OpenRouter Embeddings API failed. Falling back to keyword search.")
