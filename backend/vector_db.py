@@ -124,10 +124,23 @@ class LightweightVectorDB:
             try:
                 with open(CACHE_FILE, "r", encoding="utf-8") as f:
                     cache_data = json.load(f)
-                    # Simple validation
-                    if len(cache_data.get("chunks", [])) == len(self.chunks):
-                        self.chunks = cache_data["chunks"]
-                        self.embeddings = cache_data["embeddings"]
+                    cached_embeddings = cache_data.get("embeddings")
+                    valid_vectors = (
+                        isinstance(cached_embeddings, list)
+                        and len(cached_embeddings) == len(self.chunks)
+                        and all(
+                            isinstance(vector, list)
+                            and bool(vector)
+                            and all(isinstance(value, (int, float)) and not isinstance(value, bool)
+                                    and math.isfinite(value) for value in vector)
+                            for vector in cached_embeddings
+                        )
+                        and len({len(vector) for vector in cached_embeddings}) <= 1
+                    )
+                    if (cache_data.get("model") == self.model
+                            and cache_data.get("chunks") == self.chunks
+                            and valid_vectors):
+                        self.embeddings = cached_embeddings
                         print("Vector index loaded from cache.")
                         return
             except Exception as e:
@@ -152,6 +165,7 @@ class LightweightVectorDB:
             try:
                 with open(CACHE_FILE, "w", encoding="utf-8") as f:
                     json.dump({
+                        "model": self.model,
                         "chunks": self.chunks,
                         "embeddings": self.embeddings
                     }, f, indent=2)
