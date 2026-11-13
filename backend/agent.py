@@ -74,6 +74,9 @@ CRITICAL FACTS & CONTEXT ABOUT ME:
                 error_body = e.read().decode("utf-8")
                 print(f"OpenRouter Model {model} failed with HTTPError: {e.code} - {error_body}")
                 last_exception = e
+                # A rejected API credential cannot be fixed by switching models.
+                if e.code == 401:
+                    raise
             except Exception as e:
                 print(f"OpenRouter Model {model} failed with general exception: {e}")
                 last_exception = e
