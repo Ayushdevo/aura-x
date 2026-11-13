@@ -4,6 +4,10 @@ import urllib.request
 import urllib.error
 from backend.vector_db import LightweightVectorDB
 
+class AnalysisUnavailable(Exception):
+    """The provider did not return a usable compatibility analysis."""
+
+
 # In-memory session database: session_id -> list of message dicts
 sessions = {}
 
@@ -154,17 +158,23 @@ Perform a deep analysis and output ONLY a valid JSON object matching the followi
                 raw_reply = raw_reply[:-3]
             raw_reply = raw_reply.strip()
             
-            return json.loads(raw_reply)
+            analysis = json.loads(raw_reply)
+            if not isinstance(analysis, dict):
+                raise ValueError("Analysis must be an object")
+            score = analysis.get("compatibility_score")
+            if isinstance(score, bool) or not isinstance(score, int) or not 0 <= score <= 100:
+                raise ValueError("Analysis score must be an integer from 0 to 100")
+            for key in ("matching_skills", "skills_to_learn", "strengths"):
+                value = analysis.get(key)
+                if not isinstance(value, list) or not all(isinstance(item, str) for item in value):
+                    raise ValueError(f"Invalid analysis field: {key}")
+            for key in ("gaps_analysis", "fit_verdict"):
+                if not isinstance(analysis.get(key), str):
+                    raise ValueError(f"Invalid analysis field: {key}")
+            return analysis
         except Exception as e:
             print(f"Error during compatibility analysis: {e}")
-            return {
-                "compatibility_score": 0,
-                "matching_skills": [],
-                "skills_to_learn": [],
-                "strengths": ["Unable to complete automated reasoning at this moment."],
-                "gaps_analysis": "Reasoning engine was temporarily unavailable.",
-                "fit_verdict": "Could not parse analysis. Please make sure the job description is readable and try again."
-            }
+            raise AnalysisUnavailable("Compatibility analysis is temporarily unavailable") from e
 
     def get_memory_log(self, session_id: str) -> list:
         """Returns the conversation history saved in memory for review."""
