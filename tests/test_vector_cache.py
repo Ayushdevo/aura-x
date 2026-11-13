@@ -40,6 +40,20 @@ class CacheTests(unittest.TestCase):
             self.db.build_index()
             self.db.fetch_embedding_remote.assert_called_once()
 
+    def test_partial_build_is_not_persisted_and_zero_cache_is_retried(self):
+        self.db.chunks.append({'category': 'project', 'content': 'Project'})
+        self.db.fetch_embedding_remote.side_effect = [[1.0, 0.0], RuntimeError('temporary')]
+        self.db.build_index()
+        self.assertFalse(self.path.exists())
+        self.assertEqual(len(self.db.embeddings), 2)
+        self.db.fetch_embedding_remote.reset_mock(side_effect=True)
+        self.db.fetch_embedding_remote.return_value = [1.0, 0.0]
+        self.path.write_text(json.dumps({'model': self.db.model, 'chunks': self.db.chunks,
+                                         'embeddings': [[1.0, 0.0], [0.0, 0.0]]}))
+        self.db.build_index()
+        self.assertEqual(self.db.fetch_embedding_remote.call_count, 2)
+        self.assertEqual(json.loads(self.path.read_text())['embeddings'], [[1.0, 0.0], [1.0, 0.0]])
+
 
 if __name__ == '__main__':
     unittest.main()
