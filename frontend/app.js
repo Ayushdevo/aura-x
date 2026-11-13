@@ -289,14 +289,14 @@ document.addEventListener("DOMContentLoaded", () => {
         expList.innerHTML = data.experience.map(exp => `
             <div class="timeline-item">
                 <div class="timeline-header">
-                    <h4>${exp.company}</h4>
-                    <h5>${exp.role}</h5>
-                    <span class="date">${exp.duration}</span>
+                    <h4>${escapeHtml(exp.company)}</h4>
+                    <h5>${escapeHtml(exp.role)}</h5>
+                    <span class="date">${escapeHtml(exp.duration)}</span>
                 </div>
                 <div class="timeline-body">
-                    <p><i class="fa-solid fa-location-dot"></i> ${exp.location}</p>
+                    <p><i class="fa-solid fa-location-dot"></i> ${escapeHtml(exp.location)}</p>
                     <ul>
-                        ${exp.highlights.map(h => `<li>${h}</li>`).join("")}
+                        ${exp.highlights.map(h => `<li>${escapeHtml(h)}</li>`).join("")}
                     </ul>
                 </div>
             </div>
@@ -306,17 +306,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const eduList = document.getElementById("education-list");
         eduList.innerHTML = data.education.map(edu => {
             const courseworkHTML = edu.coursework && edu.coursework.length 
-                ? `<p class="coursework"><strong>Focus Areas:</strong> ${edu.coursework.join(", ")}</p>` 
+                ? `<p class="coursework"><strong>Focus Areas:</strong> ${escapeHtml(edu.coursework.join(", "))}</p>`
                 : "";
             return `
                 <div class="timeline-item">
                     <div class="timeline-header">
-                        <h4>${edu.institution}</h4>
-                        <h5>${edu.degree || edu.branch || ''}</h5>
-                        <span class="date">${edu.duration}</span>
+                        <h4>${escapeHtml(edu.institution)}</h4>
+                        <h5>${escapeHtml(edu.degree || edu.branch || '')}</h5>
+                        <span class="date">${escapeHtml(edu.duration)}</span>
                     </div>
                     <div class="timeline-body">
-                        <p><i class="fa-solid fa-location-dot"></i> ${edu.location}</p>
+                        <p><i class="fa-solid fa-location-dot"></i> ${escapeHtml(edu.location)}</p>
                         ${courseworkHTML}
                     </div>
                 </div>
@@ -327,11 +327,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const projGrid = document.getElementById("projects-list");
         projGrid.innerHTML = data.projects.map(proj => `
             <div class="glass-panel project-card animate-reveal">
-                <h4>${proj.name}</h4>
-                <div class="badge"><i class="fa-solid fa-calendar-days"></i> ${proj.date}</div>
-                <p>${proj.details.join(" ")}</p>
+                <h4>${escapeHtml(proj.name)}</h4>
+                <div class="badge"><i class="fa-solid fa-calendar-days"></i> ${escapeHtml(proj.date)}</div>
+                <p>${escapeHtml(proj.details.join(" "))}</p>
                 <div class="skills-tags">
-                    ${proj.tech_stack.map(tech => `<span class="skill-tag">${tech}</span>`).join("")}
+                    ${proj.tech_stack.map(tech => `<span class="skill-tag">${escapeHtml(tech)}</span>`).join("")}
                 </div>
             </div>
         `).join("");
@@ -339,13 +339,13 @@ document.addEventListener("DOMContentLoaded", () => {
         // Certifications
         const certList = document.getElementById("certifications-list");
         certList.innerHTML = data.certifications.map(cert => `
-            <li><i class="fa-solid fa-award"></i> <span>${cert}</span></li>
+            <li><i class="fa-solid fa-award"></i> <span>${escapeHtml(cert)}</span></li>
         `).join("");
 
         // Achievements
         const achieveList = document.getElementById("achievements-list");
         achieveList.innerHTML = data.key_achievements.map(ach => `
-            <li><i class="fa-solid fa-circle-check"></i> <span>${ach}</span></li>
+            <li><i class="fa-solid fa-circle-check"></i> <span>${escapeHtml(ach)}</span></li>
         `).join("");
 
         // Setup Life Quotes rotation
@@ -390,7 +390,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const container = document.getElementById(elementId);
         if (container && items) {
             container.innerHTML = items.map(item => `
-                <span class="skill-tag">${item}</span>
+                <span class="skill-tag">${escapeHtml(item)}</span>
             `).join("");
         }
     }
