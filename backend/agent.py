@@ -2,6 +2,7 @@ import json
 import os
 import urllib.request
 import urllib.error
+import threading
 from backend.vector_db import LightweightVectorDB
 
 class AnalysisUnavailable(Exception):
@@ -10,6 +11,13 @@ class AnalysisUnavailable(Exception):
 
 # In-memory session database: session_id -> list of message dicts
 sessions = {}
+_session_locks = {}
+_session_locks_guard = threading.Lock()
+
+
+def _session_lock(session_id: str):
+    with _session_locks_guard:
+        return _session_locks.setdefault(session_id, threading.RLock())
 
 class DigitalTwinAgent:
     def __init__(self, api_key: str, db: LightweightVectorDB, model: str = "anthropic/claude-3-opus"):
@@ -85,6 +93,11 @@ CRITICAL FACTS & CONTEXT ABOUT ME:
         raise last_exception
 
     def chat(self, session_id: str, user_message: str) -> str:
+        """Serialize turns within a session while allowing other sessions to run."""
+        with _session_lock(session_id):
+            return self._chat(session_id, user_message)
+
+    def _chat(self, session_id: str, user_message: str) -> str:
         """Processes chat messages, retrieves context from vector DB, and queries the LLM."""
         if session_id not in sessions:
             sessions[session_id] = []
@@ -178,9 +191,11 @@ Perform a deep analysis and output ONLY a valid JSON object matching the followi
 
     def get_memory_log(self, session_id: str) -> list:
         """Returns the conversation history saved in memory for review."""
-        return sessions.get(session_id, [])
+        with _session_lock(session_id):
+            return list(sessions.get(session_id, []))
 
     def reset_session(self, session_id: str):
         """Clears memory for the current session."""
-        if session_id in sessions:
-            sessions[session_id] = []
+        with _session_lock(session_id):
+            if session_id in sessions:
+                sessions[session_id] = []

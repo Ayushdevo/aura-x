@@ -61,7 +61,7 @@ async def get_config():
     return {"model": MODEL_NAME}
 
 @app.post("/api/chat")
-async def post_chat(payload: ChatRequest):
+def post_chat(payload: ChatRequest):
     """Chat endpoint for interacting with the AI twin."""
     if not payload.message.strip():
         raise HTTPException(status_code=400, detail="Message content cannot be empty")
@@ -72,7 +72,7 @@ async def post_chat(payload: ChatRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/analyze-compatibility")
-async def post_analyze_compatibility(payload: CompatibilityRequest):
+def post_analyze_compatibility(payload: CompatibilityRequest):
     """Endpoint for analyzing fit with a pasted job description."""
     if not payload.job_description.strip():
         raise HTTPException(status_code=400, detail="Job description cannot be empty")
