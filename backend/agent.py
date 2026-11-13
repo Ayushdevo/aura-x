@@ -89,18 +89,10 @@ CRITICAL FACTS & CONTEXT ABOUT ME:
         matched_chunks = self.db.search(user_message, limit=4)
         context_str = "\n\n".join([f"[{c['category'].upper()} DETAILS]:\n{c['content']}" for c in matched_chunks])
 
-        # 2. Build the message array for OpenRouter
-        sessions[session_id].append({"role": "user", "content": user_message})
-        
-        conversation_messages = []
-        for msg in sessions[session_id]:
-            conversation_messages.append({
-                "role": msg["role"],
-                "content": msg["content"]
-            })
-
-        # Prune older messages
-        self.clean_session_history(session_id)
+        # Keep the new turn provisional until the provider succeeds. A failed
+        # request must not leave an unanswered user message in future history.
+        conversation_messages = [dict(msg) for msg in sessions[session_id][-28:]]
+        conversation_messages.append({"role": "user", "content": user_message})
 
         # 3. Call OpenRouter with system instructions and chat logs
         system_content = self.get_system_prompt(context_str)
@@ -108,7 +100,11 @@ CRITICAL FACTS & CONTEXT ABOUT ME:
 
         try:
             reply = self._call_openrouter_with_fallbacks(messages, temperature=0.3)
-            sessions[session_id].append({"role": "assistant", "content": reply})
+            sessions[session_id].extend([
+                {"role": "user", "content": user_message},
+                {"role": "assistant", "content": reply},
+            ])
+            self.clean_session_history(session_id)
             return reply
         except Exception as e:
             print(f"All chat completion models failed: {e}")
