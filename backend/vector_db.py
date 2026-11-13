@@ -169,10 +169,14 @@ class LightweightVectorDB:
         return dot_product / (norm_a * norm_b)
 
     def keyword_overlap_score(self, query: str, doc: str) -> float:
-        """Jaccard term overlap fallback score for robust offline execution."""
+        """Fraction of query terms found in a document, excluding stop words."""
         stop_words = {"the", "a", "an", "and", "or", "but", "in", "on", "at", "for", "with", "is", "are", "was", "were", "to", "of", "about", "ayush", "tiwari"}
-        query_words = set(w.strip(".,?!()\"':;") for w in query.lower().split() if w not in stop_words)
-        doc_words = set(w.strip(".,?!()\"':;") for w in doc.lower().split() if w not in stop_words)
+        def terms(text):
+            stripped = (word.strip(".,?!()\"':;") for word in text.lower().split())
+            return {word for word in stripped if word and word not in stop_words}
+
+        query_words = terms(query)
+        doc_words = terms(doc)
         
         if not query_words:
             return 0.0
