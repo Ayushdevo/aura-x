@@ -3,7 +3,7 @@ import json
 from fastapi import FastAPI, HTTPException, Body
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 
 from backend.vector_db import LightweightVectorDB
@@ -36,15 +36,24 @@ except Exception as e:
 agent = DigitalTwinAgent(api_key=OPENROUTER_API_KEY, db=db, model=MODEL_NAME)
 
 # Pydantic models for request bodies
-class ChatRequest(BaseModel):
-    session_id: str
-    message: str
+class SessionRequest(BaseModel):
+    session_id: str = Field(min_length=1, max_length=128)
+
+    @field_validator("session_id")
+    @classmethod
+    def validate_session_id(cls, value: str) -> str:
+        if not value.strip():
+            raise ValueError("Session ID cannot be blank")
+        return value
+
+class ChatRequest(SessionRequest):
+    message: str = Field(max_length=4000)
 
 class CompatibilityRequest(BaseModel):
-    job_description: str
+    job_description: str = Field(max_length=16000)
 
-class ResetRequest(BaseModel):
-    session_id: str
+class ResetRequest(SessionRequest):
+    pass
 
 @app.get("/api/resume")
 async def get_resume():
