@@ -415,9 +415,15 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "Enter") sendMessage();
     });
 
+    let isSendingMessage = false;
+
     async function sendMessage() {
+        if (isSendingMessage) return;
         const messageText = chatInput.value.trim();
         if (!messageText) return;
+        isSendingMessage = true;
+        sendBtn.disabled = true;
+        clearChatBtn.disabled = true;
 
         // 1. Render User Message
         appendMessage("user", messageText);
@@ -454,6 +460,10 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (error) {
             typingEl.remove();
             appendMessage("assistant", `Error: ${error.message}. Please verify the API connection or your OpenRouter key limits.`);
+        } finally {
+            isSendingMessage = false;
+            sendBtn.disabled = false;
+            clearChatBtn.disabled = false;
         }
 
         chatMessages.scrollTop = chatMessages.scrollHeight;
