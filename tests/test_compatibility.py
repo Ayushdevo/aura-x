@@ -30,14 +30,13 @@ class CompatibilityTests(unittest.TestCase):
 
 class CompatibilityEndpointTests(unittest.TestCase):
     def test_provider_failure_is_503(self):
-        import asyncio
         from unittest.mock import patch
         from fastapi import HTTPException
         with patch('backend.vector_db.LightweightVectorDB.build_index'):
             from backend import main
         with patch.object(main.agent, 'analyze_compatibility', side_effect=AnalysisUnavailable('offline')):
             with self.assertRaises(HTTPException) as raised:
-                asyncio.run(main.post_analyze_compatibility(main.CompatibilityRequest(job_description='job')))
+                main.post_analyze_compatibility(main.CompatibilityRequest(job_description='job'))
         self.assertEqual(raised.exception.status_code, 503)
 
 
