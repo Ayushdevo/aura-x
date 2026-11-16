@@ -9,6 +9,30 @@ with patch('backend.vector_db.LightweightVectorDB.build_index'):
 
 
 class NonblockingTests(unittest.IsolatedAsyncioTestCase):
+    async def test_session_operations_do_not_block_config_request(self):
+        for method, path, agent_method, result, kwargs in (
+            ('post', '/api/reset-session', 'reset_session', None, {'json': {'session_id': 's'}}),
+            ('get', '/api/memory/s', 'get_memory_log', [], {}),
+        ):
+            with self.subTest(path=path):
+                started, release = threading.Event(), threading.Event()
+                def blocked_session_operation(*args):
+                    started.set()
+                    release.wait(timeout=3)
+                    return result
+                transport = httpx.ASGITransport(app=main.app)
+                async with httpx.AsyncClient(transport=transport, base_url='http://test') as client:
+                    with patch.object(main.agent, agent_method, side_effect=blocked_session_operation):
+                        task = asyncio.create_task(getattr(client, method)(path, **kwargs))
+                        try:
+                            self.assertTrue(await asyncio.to_thread(started.wait, 2))
+                            self.assertFalse(task.done(), 'session operation blocked the event loop')
+                            response = await asyncio.wait_for(client.get('/api/config'), timeout=1)
+                            self.assertEqual(response.status_code, 200)
+                        finally:
+                            release.set()
+                            await task
+
     async def test_chat_does_not_block_config_request(self):
         started, release = threading.Event(), threading.Event()
         def slow_chat(*args):

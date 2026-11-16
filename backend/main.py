@@ -85,13 +85,13 @@ def post_analyze_compatibility(payload: CompatibilityRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/api/reset-session")
-async def post_reset_session(payload: ResetRequest):
+def post_reset_session(payload: ResetRequest):
     """Resets conversation memory for a session ID."""
     agent.reset_session(payload.session_id)
     return {"status": "success", "message": "Conversation history cleared."}
 
 @app.get("/api/memory/{session_id}")
-async def get_memory(session_id: str):
+def get_memory(session_id: str):
     """Returns the conversation logs in memory for debug/transparency."""
     logs = agent.get_memory_log(session_id)
     return {"logs": logs}
