@@ -131,6 +131,7 @@ class LightweightVectorDB:
                         and all(
                             isinstance(vector, list)
                             and bool(vector)
+                            and any(value != 0 for value in vector)
                             and all(isinstance(value, (int, float)) and not isinstance(value, bool)
                                     and math.isfinite(value) for value in vector)
                             for vector in cached_embeddings
@@ -160,8 +161,9 @@ class LightweightVectorDB:
                 # If remote fails, we will populate with placeholder vectors and rely on fallback keyword search
                 self.embeddings.append([0.0] * 1536)
 
-        # Write to cache if we successfully embedded
-        if successful_embeddings > 0:
+        # Do not persist partial results: placeholder vectors should be retried
+        # on the next startup rather than permanently disabling embeddings.
+        if self.chunks and successful_embeddings == len(self.chunks):
             try:
                 with open(CACHE_FILE, "w", encoding="utf-8") as f:
                     json.dump({
