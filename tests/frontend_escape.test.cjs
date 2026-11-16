@@ -25,3 +25,24 @@ test('compatibility output escapes model-provided text', () => {
   assert.doesNotMatch(analysisResults.innerHTML, /<img/);
   assert.equal((analysisResults.innerHTML.match(/&lt;img/g) || []).length, 5);
 });
+
+test('resume data is rendered as text in all portfolio sections', () => {
+  const elements = new Map();
+  const document = { getElementById(id) {
+    if (!elements.has(id)) elements.set(id, { innerHTML: '', style: {}, addEventListener() {} });
+    return elements.get(id);
+  } };
+  const data = {
+    skills: { languages: [payload], machine_learning_deep_learning: [], generative_ai_llm: [], data_engineering: [], deployment_tools: [] },
+    experience: [{ company: payload, role: payload, duration: payload, location: payload, highlights: [payload] }],
+    education: [{ institution: payload, degree: payload, duration: payload, location: payload, coursework: [payload] }],
+    projects: [{ name: payload, date: payload, details: [payload], tech_stack: [payload] }],
+    certifications: [payload], key_achievements: [payload], life_quotes: ['quote'],
+  };
+  const renderCode = source.slice(source.indexOf('    function renderResume('), source.indexOf('    loadPortfolioData();'));
+  runInNewContext(`${escapeCode}\n${renderCode}\nrenderResume(data);`, { document, data, setInterval() {}, setTimeout() {} });
+  for (const id of ['skill-languages', 'experience-list', 'education-list', 'projects-list', 'certifications-list', 'achievements-list']) {
+    assert.doesNotMatch(elements.get(id).innerHTML, /<img/);
+    assert.match(elements.get(id).innerHTML, /&lt;img/);
+  }
+});
