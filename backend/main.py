@@ -7,7 +7,7 @@ from pydantic import BaseModel
 from typing import Optional
 
 from backend.vector_db import LightweightVectorDB
-from backend.agent import DigitalTwinAgent, sessions
+from backend.agent import AnalysisUnavailable, DigitalTwinAgent, sessions
 
 # API Key and Model configuration — set OPENROUTER_API_KEY as env variable
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "")
@@ -79,6 +79,8 @@ async def post_analyze_compatibility(payload: CompatibilityRequest):
     try:
         analysis = agent.analyze_compatibility(payload.job_description)
         return analysis
+    except AnalysisUnavailable as e:
+        raise HTTPException(status_code=503, detail="Compatibility analysis is temporarily unavailable") from e
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
