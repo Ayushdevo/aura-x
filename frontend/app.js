@@ -20,8 +20,22 @@ function getSessionId(storage, cryptoProvider) {
     return id;
 }
 
+function getBrowserStorage() {
+    return {
+        getItem(key) {
+            try { return window.localStorage.getItem(key); }
+            catch { return null; }
+        },
+        setItem(key, value) {
+            try { window.localStorage.setItem(key, value); }
+            catch { /* Keep the session and theme available for this page. */ }
+        }
+    };
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-    const sessionId = getSessionId(localStorage, crypto);
+    const storage = getBrowserStorage();
+    const sessionId = getSessionId(storage, crypto);
 
     // --- Dynamic Theme & Adjustments Configuration ---
     const root = document.documentElement;
@@ -42,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const hue = e.target.value;
         hueVal.textContent = `${hue}°`;
         root.style.setProperty("--hue", hue);
-        localStorage.setItem("aura_theme_hue", hue);
+        storage.setItem("aura_theme_hue", hue);
     });
 
     // Blur Control
@@ -50,17 +64,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const blur = e.target.value;
         blurVal.textContent = `${blur}px`;
         root.style.setProperty("--glass-blur", `${blur}px`);
-        localStorage.setItem("aura_theme_blur", blur);
+        storage.setItem("aura_theme_blur", blur);
     });
 
     // Restore custom configurations from localStorage
-    const savedHue = localStorage.getItem("aura_theme_hue");
+    const savedHue = storage.getItem("aura_theme_hue");
     if (savedHue) {
         hueSlider.value = savedHue;
         hueVal.textContent = `${savedHue}°`;
         root.style.setProperty("--hue", savedHue);
     }
-    const savedBlur = localStorage.getItem("aura_theme_blur");
+    const savedBlur = storage.getItem("aura_theme_blur");
     if (savedBlur) {
         blurSlider.value = savedBlur;
         blurVal.textContent = `${savedBlur}px`;
