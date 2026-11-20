@@ -228,20 +228,24 @@ document.addEventListener("DOMContentLoaded", () => {
             const data = await res.json();
             renderResume(data);
 
-            // Fetch active model config dynamically
-            const configRes = await fetch("/api/config");
-            if (configRes.ok) {
-                const configData = await configRes.json();
-                const modelEl = document.getElementById("active-model-name");
-                if (modelEl) {
-                    const modelName = configData.model;
-                    // Format output for display (e.g. nemotron-3-ultra-550b-a55b)
-                    modelEl.textContent = modelName.split("/").pop().toUpperCase();
-                    modelEl.title = modelName;
-                }
-            }
         } catch (err) {
             console.error("Portfolio retrieval error: ", err);
+        }
+    }
+
+    async function loadModelConfig() {
+        const modelEl = document.getElementById("active-model-name");
+        if (!modelEl) return;
+        try {
+            const response = await fetch("/api/config");
+            if (!response.ok) throw new Error("Failed to load model configuration");
+            const { model } = await response.json();
+            if (typeof model !== "string" || !model.trim()) throw new Error("Missing model name");
+            modelEl.textContent = model.split("/").pop().toUpperCase();
+            modelEl.title = model;
+        } catch (err) {
+            modelEl.textContent = "Model unavailable";
+            console.error("Model configuration error: ", err);
         }
     }
 
@@ -365,6 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     loadPortfolioData();
+    loadModelConfig();
 
     // --- AI Digital Twin Chat Logic ---
     const chatMessages = document.getElementById("chat-messages");
