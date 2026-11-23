@@ -59,7 +59,7 @@ class ResetRequest(SessionRequest):
     pass
 
 @app.get("/api/resume")
-async def get_resume():
+def get_resume():
     """Returns the full structured resume JSON."""
     data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resume_data.json")
     if not os.path.exists(data_path):
