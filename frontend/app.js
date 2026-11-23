@@ -396,9 +396,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     let isSendingMessage = false;
+    let isResettingSession = false;
 
     async function sendMessage() {
-        if (isSendingMessage) return;
+        if (isSendingMessage || isResettingSession) return;
         const messageText = chatInput.value.trim();
         if (!messageText) return;
         isSendingMessage = true;
@@ -471,21 +472,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Reset Chat logs
     clearChatBtn.addEventListener("click", async () => {
+        if (isSendingMessage || isResettingSession) return;
+        isResettingSession = true;
+        sendBtn.disabled = true;
+        clearChatBtn.disabled = true;
         try {
             const res = await fetch("/api/reset-session", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ session_id: sessionId })
             });
-            if (res.ok) {
-                chatMessages.innerHTML = `
+            if (!res.ok) throw new Error("Session reset failed");
+            chatMessages.innerHTML = `
                     <div class="message system-message">
                         <p>Conversation history and twin memory cleared. Ask me anything new!</p>
                     </div>
-                `;
-            }
+            `;
         } catch (err) {
             console.error("Failed to reset session: ", err);
+            appendMessage("system", "Could not clear the conversation. Please try again.");
+        } finally {
+            isResettingSession = false;
+            sendBtn.disabled = false;
+            clearChatBtn.disabled = false;
         }
     });
 
