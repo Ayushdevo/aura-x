@@ -189,12 +189,14 @@ class LightweightVectorDB:
         """Calculate cosine similarity for vectors in the same embedding space."""
         if not self.valid_vector(vec_a) or not self.valid_vector(vec_b) or len(vec_a) != len(vec_b):
             raise ValueError("Embedding vectors must be finite and have equal nonzero dimensions")
-        dot_product = sum(a * b for a, b in zip(vec_a, vec_b))
-        norm_a = math.sqrt(sum(a * a for a in vec_a))
-        norm_b = math.sqrt(sum(b * b for b in vec_b))
-        if norm_a == 0 or norm_b == 0:
+        scale_a = max(map(abs, vec_a))
+        scale_b = max(map(abs, vec_b))
+        if not scale_a or not scale_b:
             return 0.0
-        return dot_product / (norm_a * norm_b)
+        scaled_a = [value / scale_a for value in vec_a]
+        scaled_b = [value / scale_b for value in vec_b]
+        dot_product = math.fsum(a * b for a, b in zip(scaled_a, scaled_b))
+        return dot_product / (math.hypot(*scaled_a) * math.hypot(*scaled_b))
 
     def keyword_overlap_score(self, query: str, doc: str) -> float:
         """Fraction of query terms found in a document, excluding stop words."""
