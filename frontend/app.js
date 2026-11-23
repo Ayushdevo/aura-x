@@ -392,7 +392,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Chat sending triggers
     sendBtn.addEventListener("click", sendMessage);
     chatInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") sendMessage();
+        if (e.key === "Enter" && !e.isComposing && e.keyCode !== 229) sendMessage();
     });
 
     let isSendingMessage = false;
