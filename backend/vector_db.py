@@ -151,10 +151,17 @@ class LightweightVectorDB:
         print("Building vector index...")
         self.embeddings = []
         successful_embeddings = 0
+        embedding_dimension = None
 
         for chunk in self.chunks:
             try:
                 emb = self.fetch_embedding_remote(chunk["content"])
+                if not self.valid_vector(emb) or not any(emb):
+                    raise ValueError("Provider returned an invalid embedding")
+                if embedding_dimension is None:
+                    embedding_dimension = len(emb)
+                elif len(emb) != embedding_dimension:
+                    raise ValueError("Provider embedding dimensions changed")
                 self.embeddings.append(emb)
                 successful_embeddings += 1
             except Exception:
